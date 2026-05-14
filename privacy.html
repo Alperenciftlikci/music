@@ -24,14 +24,14 @@
     <main class="doc">
         <div class="container">
             <h1>Privacy Policy</h1>
-            <p class="updated">Effective date: May 9, 2026 · Last updated: May 9, 2026</p>
+            <p class="updated">Effective date: May 9, 2026 · Last updated: May 14, 2026</p>
 
             <p>This Privacy Policy explains how <strong>Music AI</strong> ("we", "our", "us", or "the app"), an iOS application published by Alperen Çiftlikçi (the "Developer"), collects, processes, stores, shares, and protects your information when you download, install, and use the app on Apple devices distributed through the Apple App Store.</p>
 
             <p>We have designed Music AI to be <strong>privacy-first</strong>: usage is fully anonymous by default, no email or phone number is required, and we do not run third-party advertising. The sections below describe in detail what is collected, why, where it lives, who else may see it, and how to exercise your rights.</p>
 
             <div class="callout">
-                <strong>Quick summary.</strong> Music AI gives every device an anonymous random ID and stores your generated songs, favorites, and subscription state under that ID. We do not collect your name, email, contacts, location, photos, or microphone (other than what you explicitly upload for voice cloning). We do not sell or share data for advertising. You can delete everything tied to your ID at any time.
+                <strong>Quick summary.</strong> Music AI gives every device an anonymous random ID and stores your generated songs, favorites, and subscription state under that ID. We do not collect your name, email, contacts, location, photos, or microphone audio. We do not sell or share data for advertising. You can delete everything tied to your ID at any time.
             </div>
 
             <h2>1. Information We Collect</h2>
@@ -45,11 +45,11 @@
             </ul>
             <p>The anonymous identifier is <strong>not</strong> linked to your name, email address, phone number, Apple ID, IP address (we do not log it), or any other personal identifier.</p>
 
-            <h2>1.2 Generation Inputs (Prompts, Genre, Mood, Voice)</h2>
+            <h2>1.2 Generation Inputs (Prompts, Genre, Mood)</h2>
             <p>When you create a song, the following fields are sent from your device to our Cloud Functions backend (Google Cloud, US region) and from there to our music model provider <strong>TemPolor</strong>:</p>
             <ul>
                 <li>The text prompt you typed.</li>
-                <li>The selected genre, mood, language, and voice (or "Auto").</li>
+                <li>The selected genre, mood, language, and vocal-gender preference (Auto / Male / Female).</li>
                 <li>If applicable, custom lyrics or style tags you entered in Custom mode.</li>
                 <li>The "Instrumental" toggle state.</li>
             </ul>
@@ -58,20 +58,17 @@
             <h2>1.3 Generated Content (Songs, Favorites, Playlists)</h2>
             <p>Songs you generate are stored in <strong>Google Cloud Firestore</strong> under your anonymous identifier and contain: title, lyrics (if any), genre, mood, language, duration, audio URL (hosted by TemPolor's CDN), cover image URL, creation date, play count, and favorite status. Playlists you create store a name, description, and an ordered list of song IDs. This content is private to your anonymous ID; nothing is publicly browsable.</p>
 
-            <h2>1.4 Voice Cloning Audio (Optional)</h2>
-            <p>If you choose to clone a voice via the Voice Picker, the audio sample you record (10–60 seconds) or upload is transmitted to TemPolor for model training. After processing, TemPolor returns a <em>voice ID</em> we store under your account so you can use that voice in future songs. We do not retain a copy of the original raw audio sample after the upload completes; TemPolor's retention policy applies to the sample on their side. Recording requires your explicit microphone permission, which iOS surfaces as a system prompt the first time you tap "Tap to Record".</p>
-
-            <h2>1.5 Subscription &amp; Purchase Data</h2>
+            <h2>1.4 Subscription &amp; Purchase Data</h2>
             <p>Subscriptions (Weekly Premium $7.99, Yearly Premium $39.99) are processed by <strong>Apple</strong> via StoreKit and the Apple ID associated with your device. We never see your payment card, billing address, or Apple ID credentials.</p>
             <p>Purchase status is mirrored to <strong>RevenueCat</strong>, which acts as our subscription state-of-record. RevenueCat sends server-to-server webhook events (purchase, renewal, cancellation, refund, expiration) to our Cloud Functions backend, which updates a single boolean field <code>isPro</code> in your user record so the app and our backend can recognize your subscription. Stored fields include: subscription status (active / inactive), the active product identifier (weekly / yearly), and the timestamp of the most recent event.</p>
 
-            <h2>1.6 Notifications</h2>
+            <h2>1.5 Notifications</h2>
             <p>Music AI may request permission to send local push notifications when a song you generated has finished processing (generation can take 60-120 seconds and you may leave the app in the meantime). Notifications are scheduled and delivered locally by iOS — we do not operate a push notification server, and we do not collect a device token.</p>
 
-            <h2>1.7 Diagnostics &amp; Crash Reports</h2>
+            <h2>1.6 Diagnostics &amp; Crash Reports</h2>
             <p>Firebase Crashlytics may collect anonymous crash stack traces and basic performance metrics (app cold-start time, screen render time). These reports do not contain personally identifying information and are used solely to diagnose bugs.</p>
 
-            <h2>1.8 Local-Device Storage</h2>
+            <h2>1.7 Local-Device Storage</h2>
             <p>The app stores the following <strong>locally on your device</strong> (not on our servers): your onboarding completion flag, your selected app appearance, the IDs of seed songs you favorited, and downloaded seed-song audio caches. This data is removed when you delete the app from your device.</p>
 
             <h2>2. Information We Do NOT Collect</h2>
@@ -79,7 +76,7 @@
                 <li>Your name, email address, phone number, mailing address, or contacts list.</li>
                 <li>Your precise or approximate location (we do not request location permission).</li>
                 <li>Photos, videos, or files from your photo library.</li>
-                <li>Microphone audio outside the explicit voice-cloning recording flow.</li>
+                <li>Microphone audio. The app never requests microphone permission.</li>
                 <li>Your IP address (not stored or logged on our backend).</li>
                 <li>Browsing or activity data from outside the app.</li>
                 <li>Health, fitness, financial, or biometric data of any kind.</li>
@@ -91,8 +88,8 @@
             <ul>
                 <li><strong>Service delivery</strong> — to generate the songs you request and deliver them back to your device.</li>
                 <li><strong>Library persistence</strong> — to save your generated songs, favorites, and playlists so they survive across app launches and reinstalls (when restored via the same Firebase identifier).</li>
-                <li><strong>Subscription verification</strong> — to recognize that you have a valid Pro subscription so paid features (unlimited generations, voice cloning, song extension, stems, commercial use) unlock automatically.</li>
-                <li><strong>Abuse prevention</strong> — to enforce per-account rate limits (e.g. 100 song generations / hour, 200 lyric generations / hour, 10 voice clones / hour) and detect fraud.</li>
+                <li><strong>Subscription verification</strong> — to recognize that you have a valid Pro subscription so paid features (unlimited generations, all genres &amp; moods, priority generation, commercial use rights) unlock automatically.</li>
+                <li><strong>Abuse prevention</strong> — to enforce per-account rate limits (e.g. 100 song generations / hour, 200 lyric generations / hour) and detect fraud.</li>
                 <li><strong>Quality improvements</strong> — to diagnose crashes and performance issues so we can fix them.</li>
             </ul>
 
@@ -101,7 +98,7 @@
             <ul>
                 <li><strong>Performance of a contract</strong> — for processing necessary to deliver the song-generation service you requested (Articles 6(1)(b)).</li>
                 <li><strong>Legitimate interest</strong> — for crash diagnostics and abuse prevention (Article 6(1)(f)). You may object to processing on this basis at any time.</li>
-                <li><strong>Consent</strong> — for sending notifications and accessing the microphone for voice cloning (Article 6(1)(a)). You can withdraw consent at any time in iOS Settings → Music AI.</li>
+                <li><strong>Consent</strong> — for sending notifications (Article 6(1)(a)) and for the AI-generation disclosure presented before your first generation. You can withdraw notification consent at any time in iOS Settings → Music AI.</li>
             </ul>
 
             <h2>5. Third-Party Service Providers</h2>
@@ -110,7 +107,7 @@
                 <li><strong>Apple Inc.</strong> — App Store distribution, in-app purchase processing, push notifications. <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">apple.com/legal/privacy</a></li>
                 <li><strong>Google LLC (Firebase)</strong> — Authentication, Firestore, Cloud Functions, Crashlytics, App Check. Data centers in the United States. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">firebase.google.com/support/privacy</a></li>
                 <li><strong>RevenueCat, Inc.</strong> — Subscription state synchronization. United States. <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a></li>
-                <li><strong>TemPolor</strong> — AI music generation engine that produces the audio for your prompts and processes voice-cloning samples. <a href="https://platform.tempolor.com" target="_blank" rel="noopener">platform.tempolor.com</a></li>
+                <li><strong>TemPolor</strong> — AI music generation engine that produces the audio for your text prompts. No audio uploads are sent. <a href="https://platform.tempolor.com" target="_blank" rel="noopener">platform.tempolor.com</a></li>
             </ul>
             <p>We have engaged each of these providers under their standard data-processing terms. We do not sell or rent your data to any third party for advertising or marketing purposes.</p>
 
@@ -122,7 +119,6 @@
                 <li><strong>Anonymous account &amp; library content.</strong> Retained for as long as the account is in active use. Inactive accounts (no app launch for 24 months) are flagged for deletion.</li>
                 <li><strong>Subscription state.</strong> Retained while your subscription is active and for up to 7 years afterward to comply with tax and accounting obligations.</li>
                 <li><strong>Generation request payloads.</strong> Deleted from our backend within 24 hours of a successful response.</li>
-                <li><strong>Voice-cloning audio samples.</strong> Not retained on our backend. TemPolor's retention policy applies on their side.</li>
                 <li><strong>Crash reports.</strong> Retained for 90 days.</li>
                 <li><strong>Cloud Functions logs.</strong> Retained for 30 days for debugging purposes.</li>
             </ul>
